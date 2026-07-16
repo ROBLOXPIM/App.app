@@ -51,11 +51,14 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Install Android SDK packages
+            - name: Install Android SDK packages
         run: |
           mkdir -p $ANDROIDSDK
 
-          sdkmanager --sdk_root=$ANDROIDSDK \
+          yes | sdkmanager --licenses
+
+          sdkmanager --install \
+            --sdk_root=$ANDROIDSDK \
             "cmdline-tools;latest"
 
           yes | $ANDROIDSDK/cmdline-tools/latest/bin/sdkmanager --licenses
