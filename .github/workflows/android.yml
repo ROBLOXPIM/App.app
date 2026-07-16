@@ -10,10 +10,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    env:
-      ANDROIDSDK: /home/runner/.buildozer/android/platform/android-sdk
-      ANDROID_HOME: /home/runner/.buildozer/android/platform/android-sdk
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -52,18 +48,8 @@ jobs:
 
       - name: Install Android SDK packages
         run: |
-          mkdir -p $ANDROIDSDK
-
           yes | sdkmanager --licenses
-
           sdkmanager \
-            --sdk_root=$ANDROIDSDK \
-            "cmdline-tools;latest"
-
-          yes | $ANDROIDSDK/cmdline-tools/latest/bin/sdkmanager --licenses
-
-          $ANDROIDSDK/cmdline-tools/latest/bin/sdkmanager \
-            --sdk_root=$ANDROIDSDK \
             "platform-tools" \
             "platforms;android-33" \
             "build-tools;33.0.2"
@@ -82,5 +68,4 @@ jobs:
         with:
           name: DoomPython-APK
           path: bin/*.apk
-
 
