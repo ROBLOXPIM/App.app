@@ -1,4 +1,3 @@
-
 name: Build Android APK
 
 on:
@@ -27,6 +26,17 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android packages
+        run: |
+          yes | sdkmanager --licenses
+          sdkmanager \
+            "platform-tools" \
+            "platforms;android-33" \
+            "build-tools;33.0.2"
+
       - name: Install dependencies
         run: |
           sudo apt update
@@ -50,18 +60,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install buildozer cython
 
-      - name: Prepare Android SDK
-        run: |
-          mkdir -p ~/.buildozer/android/platform/android-sdk
-
-          yes | sdkmanager --licenses
-
-          sdkmanager \
-            --sdk_root=$HOME/.buildozer/android/platform/android-sdk \
-            "platform-tools" \
-            "platforms;android-33" \
-            "build-tools;33.0.2"
-
       - name: Build APK
         run: |
           buildozer android debug
@@ -71,4 +69,3 @@ jobs:
         with:
           name: DoomPython-APK
           path: bin/*.apk
-
