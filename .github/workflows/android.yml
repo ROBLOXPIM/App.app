@@ -40,7 +40,6 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo dpkg --add-architecture i386
           sudo apt update
 
           sudo apt install -y \
@@ -51,16 +50,12 @@ jobs:
             libtool \
             pkg-config \
             zlib1g-dev \
-            libncurses5-dev \
-            libncursesw5-dev \
-            libtinfo6 \
+            libncurses-dev \
+            libtinfo-dev \
             cmake \
             libffi-dev \
             libssl-dev \
-            lib32z1 \
-            zlib1g:i386 \
-            libstdc++6:i386 \
-            libncurses5:i386
+            lib32z1
 
       - name: Install Buildozer
         run: |
