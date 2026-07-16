@@ -15,7 +15,6 @@ jobs:
       ANDROID_HOME: /home/runner/.buildozer/android/platform/android-sdk
 
     steps:
-
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -51,13 +50,13 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-            - name: Install Android SDK packages
+      - name: Install Android SDK packages
         run: |
           mkdir -p $ANDROIDSDK
 
           yes | sdkmanager --licenses
 
-          sdkmanager --install \
+          sdkmanager \
             --sdk_root=$ANDROIDSDK \
             "cmdline-tools;latest"
 
@@ -83,3 +82,5 @@ jobs:
         with:
           name: DoomPython-APK
           path: bin/*.apk
+
+
