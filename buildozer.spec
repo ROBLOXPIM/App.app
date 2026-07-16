@@ -495,3 +495,7 @@ warn_on_root = 1
 #        buildozer --profile demo android debug
 #
 #   Environment variable overrides have priority over profile overrides.
+
+android.api = 33
+android.minapi = 23
+
