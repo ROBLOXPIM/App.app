@@ -32,6 +32,7 @@ jobs:
       - name: Install Android packages
         run: |
           yes | sdkmanager --licenses
+
           sdkmanager \
             "platform-tools" \
             "platforms;android-33" \
@@ -40,6 +41,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt update
+
           sudo apt install -y \
             git \
             zip \
@@ -53,7 +55,9 @@ jobs:
             libtinfo6 \
             cmake \
             libffi-dev \
-            libssl-dev
+            libssl-dev \
+            lib32z1 \
+            zlib1g:i386
 
       - name: Install Buildozer
         run: |
@@ -62,17 +66,16 @@ jobs:
 
       - name: Prepare Buildozer SDK
         run: |
-          mkdir -p ~/.buildozer/android/platform/android-sdk
+          mkdir -p ~/.buildozer/android/platform/android-sdk/tools/bin
 
-          yes | sdkmanager --licenses
-
-          sdkmanager \
-            --sdk_root=$HOME/.buildozer/android/platform/android-sdk \
-            "platform-tools" \
-            "platforms;android-33" \
-            "build-tools;33.0.2"
+          ln -sf \
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager \
+          ~/.buildozer/android/platform/android-sdk/tools/bin/sdkmanager
 
       - name: Build APK
+        env:
+          ANDROID_HOME: /home/runner/.buildozer/android/platform/android-sdk
+          ANDROID_SDK_ROOT: /home/runner/.buildozer/android/platform/android-sdk
         run: |
           buildozer android debug
 
